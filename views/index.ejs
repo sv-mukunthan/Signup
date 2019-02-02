@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sign_Up</title>
+	<!-- <meta name="google-signin-client_id" content="761898474197574"> -->
+	<meta name="google-signin-client_id" content="761898474197574.apps.googleusercontent.com">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.rawgit.com/oauth-io/oauth-js/c5af4519/dist/oauth.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.12.0/bootstrap-social.min.css">
+    <script type="text/javascript" src="http://assets.freshdesk.com/widget/freshwidget.js"></script>
+    <script type="text/javascript">
+	FreshWidget.init("", {"queryString": "&widgetType=popup", "utf8": "✓", "widgetType": "popup", "buttonType": "text", "buttonText": "Support", "buttonColor": "black", "buttonBg": "#006063", "alignment": "4", "offset": "235px", "formHeight": "500px", "url": "https://svmukunthan97.freshdesk.com"} );
+    </script>
+</head>
+<body>
+
+	<div class="box">
+	  
+	  <h2>Login</h2>
+	  
+	  <form action="">
+	    
+	    <!-- Login -->
+	    
+	    <div class="login-form">
+	    	<span id="message"></span>
+	      
+	      <label for="username">Username</label>
+	      <input type="text" id="username" placeholder="Username">
+	      <div class="name_err"></div>
+	      <label for="password">Password</label>
+	      <input type="password" id="password" placeholder="Password">
+	      <div class="psw_err"></div>
+	    </div>
+	    
+	    <!-- Register -->
+	    
+	    <div class="register-form">
+	      
+	      <label for="first-name">First Name</label>
+	      <input disabled type="text" id="first-name" placeholder="First Name">
+	      
+	      <label for="last-name">Last Name</label>
+	      <input disabled type="text" id="last-name" placeholder="Last Name">
+	      
+	      <label for="email">E-mail Adress</label>
+	      <input disabled type="text" id="email" placeholder="E-mail Address">
+	      <div class="email_err"></div>
+	    </div>
+	    
+	    <!-- Submit -->
+
+	    
+	    <input type="submit" id="submit" class="login" value="Login">
+	    
+	    <!-- Help -->
+	    
+	    <a href="register.htm" class="register">Sign_Up!</a>
+	    <a id="facebook-button" class="btn btn-block btn-social btn-facebook">
+	      <i class="fa fa-facebook"></i> Sign in with Facebook
+	    </a>
+	  </form>
+	</div>
+
+
+	<script type="text/javascript">
+
+        (function( $ ){
+	  
+	  $.fn.extend( jQuery.easing, {
+	    eioe: function( ø, t, b, c, d ) {
+	      if(t==0) return b;
+	      if(t==d) return b+c;
+	      if( (t /= d/2) < 1 ) return c/2 * Math.pow( 2, 10 * (t - 1) ) + b;
+	      return c/2 * ( -Math.pow( 2, -10 * --t ) + 2 ) + b;
+	    }
+	  });
+
+	  
+	  $.fn.toggleDisabled = function() {
+	    return this.each(function() {
+	      this.disabled = !this.disabled;
+	    });
+	  };
+
+	  
+	  $.fn.toggleAttr = function(a, v1, v2) {
+	    return this.each(function() {
+	      var $t = $(this),
+	          v  = $t.attr(a) === v1 ? v2 : v1;
+	      $t.attr(a, v)
+	        });
+	  };
+	  
+	  // Toggle login/register form
+	  
+	  $('.register').click(function(){
+	    
+	    // Toggle register form and enable inputs
+	    $('.register-form').slideToggle({
+	      easing: 'eioe',
+	      duration: 250
+	    }).find('input').toggleDisabled();
+	    
+	    // Change header
+	    // Login -> Signup
+	    var $h2 = $('.box h2'),
+	        headerText = $h2.text() === "Login" 
+	        ? "Sign_Up" 
+	        : "Login";
+	    $h2.text(headerText);
+	    
+	    // Change submit button value
+	    // Login -> signup
+	    $('#submit').toggleAttr('value','Login','Register');
+	    
+	    // Change signup link
+	    // Signup -> Login link
+	    var $su = $('.register');
+	    $su.toggleAttr('href')
+	      var signupLinkText = $su.text() === "Sign_Up!" 
+	          ? "Login!" 
+	          : "Sign_Up";
+	    $su.text(signupLinkText);
+	    
+	    // Change form action
+	    // login.php -> register.php
+	    $('form').toggleAttr('action')
+	      
+	      return false;
+	  });
+	  
+	})(jQuery);
+
+	  $('#facebook-button').on('click', function() {
+        // Initialize with your OAuth.io app public key
+        OAuth.initialize('NpGDyUEHc3r2S0BTk9r0b2ooy98');
+        // Use popup for oauth
+        OAuth.popup('facebook').then(facebook => {
+          console.log('facebook:',facebook);
+          // Prompts 'welcome' message with User's email on successful login
+          // #me() is a convenient method to retrieve user data without requiring you
+          // to know which OAuth provider url to call
+          facebook.me().then(data => {
+            console.log('me data:', data);
+            alert('Facebook says your name is:' + data.name + ".\nView browser 'Console Log' for more details");
+          })
+          // Retrieves user data from OAuth provider by using #get() and
+          // OAuth provider url
+          facebook.get('/v2.5/me?fields=name,first_name,last_name,email,gender,location,locale,work,languages,birthday,relationship_status,hometown,picture').then(data => {
+            console.log('self data:', data);
+          })
+        });
+      });
+
+     function randomString(length) {
+	    var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
+
+	    if (! length) {
+	        length = Math.floor(Math.random() * chars.length);
+	    }
+
+	    var str = '';
+	    for (var i = 0; i < length; i++) {
+	        str += chars[Math.floor(Math.random() * chars.length)];
+	    }
+	    return str;
+	};
+
+		$(document).ready(function(){
+			$('#submit').click(function(){
+			    var name=$('#username').val();
+			    var password=$('#password').val();
+			    var fname=$('#first-name').val();
+			    var lname=$('#last-name').val();
+			    var email=$('#email').val();
+			    var  urldynamic= randomString(8);
+
+                
+                var err_msg=true;
+
+                if(name=="" || name==null){
+                	err_msg=false;
+                	$(".name_err").text("Please Enter UR Name..");
+                    window.event.preventDefault();
+                }
+                if(email=="" || email==null){
+                	err_msg=false;
+                	$(".email_err").text("Please Enter UR Email..");
+                    window.event.preventDefault();
+                }
+                if(password=="" || password==null){
+                	err_msg=false;
+                	$(".psw_err").text("Please Enter UR Password..");
+                    window.event.preventDefault();
+                }
+
+            	if(err_msg==true){
+				    var signdata={'name':name,'password':password,'first-name':fname,'last-name':lname, 'email':email,'urldynamic':urldynamic};
+				    console.log("signdata",signdata);
+				    
+
+				    $.ajax({
+				    	type:'GET',
+				    	datatype:'JSON',
+				    	data:signdata,
+				    	url:'/sign',
+				    	success:function(data){
+				    		alert(data);
+				    	 $('#message').append(data);
+                         	
+				    	},
+				    }) 
+			    }
+			});
+
+			$('#submit').toggleAttr('value','Login').click(function(){
+				var name=$('#username').val();
+				var password=$('#password').val();
+
+				var logindata={'name':name,'password':password};
+
+				$.ajax({
+					type:'GET',
+					datatype:'JSON',
+					url:'/Login',
+					data:logindata,
+					success:function(data){
+						console.log(data);
+						alert(data);
+						location.reload(true);
+						
+						// $("#feedback").html(data);
+
+					},
+				});
+			});
+		});
+	</script>
+
+	<style type="text/css">
+
+		#facebook-button{
+			width: 15px;
+		}
+
+		* { box-sizing: border-box }
+		html, body {
+		  display: table;
+		  margin: 0;
+		  padding: 0;
+		  width: 100%;
+		  height: 100%;
+		  background: #eee;
+		}
+		body {
+		  display: table-cell;
+		  vertical-align: middle;
+		}
+		.box {
+		  margin: auto;
+		  padding: 25px 50px;
+		  width: 350px;
+		  min-height: 115px;
+		  background: #fff;
+		  border-left: 5px solid #9b2;
+		  box-shadow: 0 0 20px rgba(0,0,0,.15);
+		  font: 12px/15px Arial, Helvetica, sans-serif;
+		  color: #666;
+		}
+		h2 {
+		  margin: 0 10px;
+		  line-height: 40px;
+		}
+		form {
+		  padding: 0 10px 10px;
+		}
+		form::after {
+		  content: "";
+		  display: block;
+		  clear: both;
+		}
+		label {
+		  position: absolute;
+		  left: -9999px;
+		}
+		input {
+		  position: relative;
+		  z-index: 10;
+		  margin: 0;
+		  padding: 0 5px;
+		  width: 225px;
+		  height: 30px;
+		  border: 1px solid #ccc;
+		}
+		input:focus {
+		  z-index: 15;
+		  box-shadow: 0 0 10px rgba(0,0,0,.1);
+		  outline: 0;
+		}
+		#password {
+		  top:-1px;
+		  margin-bottom: 5px;
+		}
+		.register-form {
+		  display: none;
+		}
+		.register-form input {
+		  margin: -1px 0;
+		}
+		#first-name {
+		  margin-top: 5px;
+		}
+		.captcha {
+		  margin: 10px 0;
+		}
+		.captcha label {
+		  position: relative;
+		  left: 0;
+		}
+		#submit {
+		  float: right;
+		  padding: 0;
+		  width: 75px;
+		  background: #9b2;
+		  color: #140;
+		  border-color: #471;
+		}
+		#submit:hover {
+		  color: #025;
+		  background: #28e;
+		  border-color: #16c;
+		}
+		#submit ~ a {
+		  display: block;
+		  float: left;
+		  font-size: 15px;
+		  width: 200px;
+		  height: 40px;
+		  text-decoration: none;
+		  color: #999;
+		}
+		#submit ~ a:hover {
+		  text-decoration: underline;
+		}
+	</style>
+</body>
+</html>
